@@ -1,2 +1,2 @@
-# pooo
-repository for poo
+# Ejercicio poo
+
