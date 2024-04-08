@@ -21,6 +21,9 @@ int main(int argc, char *argv[])
     double e_final;    
     double t_final;
     int limit, limit2;
+    double km1 = 70;
+    double km2 = 150;
+    double encuentro;
 
     switch (ejercicio) {
 case 1:
@@ -83,8 +86,11 @@ case 4:
     }
 
     break;
+case 5:
+    encuentro = (km2 + km1) / 2;
+    printf("se encontraran en el kilometro %f", encuentro);
+    break;
 }
-
 
 return 0;
 }
