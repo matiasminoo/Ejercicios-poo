@@ -11,9 +11,6 @@ int main(int argc, char *argv[])
     printf("3 \n");
     printf("4 \n");
     printf("5 \n");
-    printf("6 \n");
-    printf("7 \n");
-    printf("8 \n");
     scanf("%d", &desicion);
 //Ejercicio 1
     int num1;
@@ -30,9 +27,6 @@ int main(int argc, char *argv[])
     int tarea;
 //Ejercicio 5
     int eval;
-//Ejercicio 7
-    int h;
-    int m;
 
     switch(desicion) {
     case 1:
@@ -93,15 +87,7 @@ int main(int argc, char *argv[])
                 }      
         }
         break;
-    case 6:
-        printf("Muchos if profe, muy largo");
 
-        break;
-    case 7:
-        printf("Ingrese la hora deseada (h / m): \n");
-        scanf("%d %d", &h, &m);
-
-        if (h > 12) {
             
         }
 
