@@ -2,8 +2,20 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#define YELLOW "\x1b[33m"
+#define YELLOWBACK "\x1b[43m"
+#define BLUE "\x1b[34m"
+#define BLUEBACK  "\x1b[44m"
+#define BROWN "\x1b[38;5;94m"
+#define BROWNBACK "\x1b[48;5;94m"
+#define RED "\x1b[31m"
+#define BLACK "\x1b[30m"
+#define RETURN "\x1b[0m"
+
+
 
 void tutorial (){
+	system("cls");
 	printf("El objetivo  del juego es encontrar el tesoro tan deseado, pero no sera tan facil, ya que tienes que tener cuidado de\n");
 	printf("no caerte al agua ni cansarte, por lo que tendras intentos limitados \n \nComo iniciar el juego?\nAl inicio del juego se pedira al jugador");
 	printf("que ingrese el largo y ancho del tablero, ingresando primero las filas y luego  las columnas, designando asi el tamanio de la isla. \n");
@@ -14,31 +26,40 @@ void tutorial (){
 }
 
 void menu(){
-	printf("Bienvenido a \nPIRATAS EN LATZINA\n \n");
-	puts("1. Iniciar el juego");
+	
+	puts("1. Iniciar la busqueda del tesoro YAAARRRRR");
 	puts("2. Como se juega?");
 	printf("que opcion desea realizar?: \n");
 	int desicion;
 	scanf("%d" , &desicion);
 	if (desicion == 2){
 		tutorial();
+	} else if (desicion == 1){
+		tabla();
+	} else if(desicion != 1 || desicion != 2 ){
+		printf("ingrese una opcion valida");
+		menu();
 	}
 }
 
 void tabla(){
 	int numf;
 	int numc;
-	menu();
-	printf("Cuantas filas queres? \n");
+
+	system("cls");
+
+	puts("YARRRRR Bucanero, bienvenido a la busqueda del tesoro, antes que nada, debes elegir a que isla nos dirijiremos");
+
+	printf("Cuantas filas desea que sea de alto sea la isla (5 minimo)? \n");
     scanf("%d",&numf);
-    printf("Cuantas columnas queres? \n");
+    printf("Cuantas columnas desea que sea de largo la isla (5 minimo)?  \n");
     scanf("%d", &numc);
     char *tabla[numf][numc];
     int pfila;
     int pcol;
     int tfila;
     int tcol;
-    int decision;
+    //int decision;
     for(int i = 0; i < numf;i++){
     	for(int j = 0; j < numc;j++){
     		if(i == 0 && j == numc - 1 || i == numf - 1 && j == 0){
@@ -65,37 +86,27 @@ void tabla(){
 }
 
 void imprimir(int numf, int numc,char *tabla[numf][numc]){
+	system("cls");
 for(int i = 0; i < numf;i++){
 	for(int j = 0; j < numc;j++){
-		printf("%s",tabla[i][j]);
+		if(tabla[i][j] == "|-|"){
+			printf( YELLOW YELLOWBACK "%s" RETURN,tabla[i][j]);
+		} else if(tabla[i][j] == "|A|"){
+			printf( BLUE BLUEBACK "%s" RETURN ,tabla[i][j]);
+		} else if(tabla[i][j] == "|B|"){
+			printf( BROWN BROWNBACK "%s" RETURN ,tabla[i][j]);
+		} else if (tabla[i][j] == "|P|"){
+			printf( BLACK YELLOWBACK "%s" RETURN ,tabla[i][j]);
+		} else if (tabla[i][j] == "|x|"){
+			printf( RED YELLOWBACK "%s" RETURN ,tabla[i][j]);
+		} else if (tabla[i][j] == "|T|"){
+			printf( BLACK YELLOWBACK "%s" RETURN ,tabla[i][j]);
+		}
+		
+		
 	}
 	printf("\n");
 }	
-}
-
-void buscar(int numf, int numc, char *tabla[numf][numc], int pcol, int pfila, int tcol, int tfila) {
-	int encontrado = 0;
-	for(int var = 0; var <= 50 && encontrado == 0; var++ ) {
-	imprimir(numf, numc,tabla);
-	
-	printf("la posicion  es %d %d\n", tfila + 1, tcol + 1);
-	printf("El pirata esta en la fila %d columna %d\n", pfila, pcol);
-	
-	tabla[pfila][pcol] = "|-|";
-	printf("Elija la fila en la que quiere posicionarse: \n");
-	scanf("%d",&pfila);
-	
-	printf("Elija la columna en la que quiere posicionarse: \n");
-	scanf("%d",&pcol);
-	
-	tabla[pfila][pcol] = "|P|";
-		if(pcol - 1 == tcol && pfila - 1 == tfila) {
-			printf("GANASTE\n");
-			tabla[tfila][tcol] = "|T|";
-			imprimir(numf, numc, tabla);
-			encontrado = 1;
-		}
-    }
 }
 
 void moverse(int numf, int numc, char *tabla[numf][numc], int pcol, int pfila, int tcol, int tfila){
@@ -103,7 +114,7 @@ void moverse(int numf, int numc, char *tabla[numf][numc], int pcol, int pfila, i
 	char movimiento;
 	for(int var = 0; var <= 50 && encontrado == 0; var++ ) {
 	imprimir(numf, numc,tabla);
-	printf("Para donde??? (N, S, E, O)\n");
+	printf("Hacia que direccion desea moverse??? (N, S, E, O)\n");
 	//printf("%d %d\n", tfila + 1, tcol + 1);
 	scanf(" %c",&movimiento);
 	if(movimiento == 'N' || movimiento == 'n'){
@@ -122,13 +133,23 @@ void moverse(int numf, int numc, char *tabla[numf][numc], int pcol, int pfila, i
 	tabla[pfila][pcol] = "|P|";
 	if(pcol - 1 == tcol && pfila - 1 == tfila) {
 			printf("Ganaste bestia\n");
-			tabla[tfila][tcol] = "|T|";
+			tabla[pfila][pcol] = "|T|";
 			imprimir(numf, numc, tabla);
 			encontrado = 1;
 		}
 	else if(pfila == 0 || pfila == numf - 1 || pcol == 0 || pcol == numc - 1) {
 			printf("Te caiste al agua boludin\n");
-			encontrado = 1;
+			//return 0;
+			char SyN;
+			printf ("quieres volver a intentar (S o N)?");
+			scanf("%c" , &SyN);
+			if (SyN == "S" || SyN == "s"){
+				printf("desea estar en la misma isla (S para permanecer o N para irte)?: ");
+				scanf("%c" , &SyN);
+				if(SyN == "S" || SyN == "s"){
+					
+				}
+			}
 		}
 
 	
@@ -137,6 +158,7 @@ void moverse(int numf, int numc, char *tabla[numf][numc], int pcol, int pfila, i
 
 int main(int argc, char *argv[]) {
 	srand(time(NULL));
-	tabla();
+	printf("Hola bucanero, bienvenido a \nPIRATAS EN LATZINA\n \n");
+	menu();
 	return 0;
 }
